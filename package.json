@@ -12,6 +12,9 @@
     "format": "prettier --write ."
   },
   "dependencies": {
+    "@aws-amplify/auth": "^6.12.2",
+    "@aws-amplify/core": "^6.11.2",
+    "@aws-amplify/react-native": "^1.1.8",
     "@react-native-async-storage/async-storage": "^2.1.2",
     "@react-native-community/netinfo": "^11.4.1",
     "@react-navigation/native-stack": "^7.3.10",
