@@ -78,6 +78,11 @@ const ProfileScreen = () => {
             <Text style={styles.metricLabel}>Faltas Computadas</Text>
           </View>
         </View>
+        <View>
+        <TouchableOpacity style={styles.exitButton} onPress={() => navigation.navigate('Login')}>
+          <Text style={styles.exitButtonText}>Sair</Text>
+        </TouchableOpacity>
+        </View>
       </ScrollView>
     </SafeAreaView>
   );
@@ -214,6 +219,20 @@ const styles = StyleSheet.create({
     color: "#0071F5",
     fontSize: 12,
     marginTop: 2,
+  },
+  exitButton: {
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: 12,
+    marginHorizontal: 16,
+    backgroundColor: "#F8F9FA",
+    borderRadius: 8,
+  },
+  exitButtonText: {
+    color: "#FF4E79",
+    fontSize: 14,
+    marginTop: 2,
+    fontWeight: "bold"
   },
 });
 export default ProfileScreen;
