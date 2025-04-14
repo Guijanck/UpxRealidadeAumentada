@@ -146,7 +146,7 @@ const HomeScreen = () => {
           <Text style={styles.navText}>Histórico</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.navItem}>
+        <TouchableOpacity style={styles.navItem} onPress={() => navigation.navigate('Profile')}>
           <IonIcon name="person-outline" size={24} color="#757575" />
           <Text style={styles.navText}>Perfil</Text>
         </TouchableOpacity>
