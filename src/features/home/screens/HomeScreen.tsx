@@ -119,7 +119,7 @@ const HomeScreen = () => {
               <Text style={[styles.exploreText, {color: "#4CAF50"}]}>Ferramentas</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.exploreItem}>
+            <TouchableOpacity style={styles.exploreItem} onPress={() => navigation.navigate('MyActivities')}>
               <View style={[styles.exploreIconContainer, { backgroundColor: '#E3F2FD' }]}>
                 <Icon name="assignment" size={24} color="#2196F3" />
               </View>

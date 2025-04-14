@@ -11,7 +11,6 @@ const ProfileScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity style={styles.backButton} onPress={() => navigation.navigate('Home')}>
           <Icon name="arrow-back-ios" stroke="#0071F5" width={32} height={32} />
@@ -20,7 +19,6 @@ const ProfileScreen = () => {
       </View>
 
       <ScrollView style={styles.content}>
-        {/* Action Buttons */}
         <View style={styles.actionButtons}>
           <TouchableOpacity style={styles.actionButton}>
             <Icon name="download-done" stroke="#0071F5" width={20} height={20} />
@@ -33,7 +31,6 @@ const ProfileScreen = () => {
           </TouchableOpacity>
         </View>
 
-        {/* Profile Section */}
         <View style={styles.profileSection}>
           <Image
             source={{
@@ -45,7 +42,6 @@ const ProfileScreen = () => {
           <Text style={styles.schoolName}>Colégio Nova Esperança</Text>
         </View>
 
-        {/* Dropdown Sections */}
         <TouchableOpacity style={styles.dropdownButton} onPress={() => setRelatorioExpanded(!relatorioExpanded)}>
           <Text style={styles.dropdownButtonText}>Relatório Bimestral</Text>
           <Icon name="chevron-down" stroke="#0071F5" width={16} height={16} />
@@ -56,7 +52,6 @@ const ProfileScreen = () => {
           <Icon name="chevron-down" stroke="#0071F5" width={16} height={16} />
         </TouchableOpacity>
 
-        {/* Metrics Grid */}
         <View style={styles.metricsGrid}>
           <View style={styles.metricCard}>
             <Text style={styles.metricValue}>12</Text>

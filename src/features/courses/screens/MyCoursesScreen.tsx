@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 18,
     fontWeight: "600",
-    color: "#4A86F7",
+    color: "#0071F5",
   },
   title: { fontSize: 20, fontWeight: "bold", marginBottom: 16 },
   filters: {
