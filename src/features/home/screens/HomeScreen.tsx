@@ -136,7 +136,7 @@ const HomeScreen = () => {
           <Text style={[styles.navText, { color: '#2196F3' }]}>Início</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.navItem}>
+        <TouchableOpacity style={styles.navItem} onPress={() => navigation.navigate('MyCourses')}>
           <IonIcon name="book-outline" size={24} color="#757575" />
           <Text style={styles.navText}>Cursos</Text>
         </TouchableOpacity>
