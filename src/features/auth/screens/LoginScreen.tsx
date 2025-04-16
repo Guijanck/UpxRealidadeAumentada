@@ -9,6 +9,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useAuth } from '../hooks/useAuth';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import MIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+import * as Keychain from 'react-native-keychain';
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
@@ -20,24 +21,65 @@ const LoginScreen = () => {
   const isFormValid = email.trim() !== '' && password.trim() !== '';
 
   const handleSubmit = async () => {
-    console.log("Entrou");
-    console.log(isFormValid)
-    console.log(email)
-    console.log(password)
+    try {
+      const result: any = await signIn({ username: email, password });
 
-    if (!isFormValid) return;
+      if (result.success) {
+        if (result.tokens?.idToken) {
+          try {
+            await Keychain.setGenericPassword('auth', result.tokens.idToken);
+            console.log('Token salvo com sucesso');
+            navigation.navigate('Home')
+          } catch (e) {
+            console.error('Erro ao salvar o token:', e);
+          }
+        }
+      } else if (result.challenge === 'NEW_PASSWORD_REQUIRED') {
+        Alert.prompt(
+          'Nova Senha',
+          'É necessário definir uma nova senha.',
+          async (newPassword) => {
+            if (newPassword) {
+              try {
+                const completionResult: any = await completeNewPassword(
+                  result.user,
+                  newPassword,
+                  result.userAttributes
+                );
+                if (completionResult.success) {
+                  Alert.alert('Sucesso', 'Senha atualizada com sucesso!');
+                  // Navegue para a próxima tela ou armazene os tokens conforme necessário
+                }
+              } catch (err: any) {
+                Alert.alert('Erro', err.error || 'Erro ao atualizar a senha.');
+              }
+            }
+          }
+        );
+      } else if (result.challenge === 'MFA_REQUIRED') {
+        Alert.prompt(
+          'MFA',
+          'Insira o código MFA enviado para seu dispositivo.',
+          async (mfaCode) => {
+            if (mfaCode) {
+              result.user.sendMFACode(mfaCode, {
+                onSuccess: (mfaResult: { getAccessToken: () => { (): any; new(): any; getJwtToken: { (): any; new(): any; }; }; getIdToken: () => { (): any; new(): any; getJwtToken: { (): any; new(): any; }; }; getRefreshToken: () => { (): any; new(): any; getToken: { (): any; new(): any; }; }; }) => {
+                  const accessToken = mfaResult.getAccessToken().getJwtToken();
+                  const idToken = mfaResult.getIdToken().getJwtToken();
+                  const refreshToken = mfaResult.getRefreshToken().getToken();
 
-    setIsLoading(true);
-
-    const result = await signIn({ username: email, password });
-
-    setIsLoading(false);
-
-    if (result.success) {
-      console.log('Login bem-sucedido');
-      //navigation.navigate('ConfirmCode', { user: result.user });
-    } else {
-      Alert.alert('Erro no login', result.error || 'Falha na autenticação');
+                  Alert.alert('Sucesso', 'Login com MFA realizado com sucesso!');
+                },
+                onFailure: (err: { message: any; }) => {
+                  Alert.alert('Erro', err.message || 'Erro no MFA.');
+                },
+              });
+            }
+          }
+        );
+      }
+    } catch (err: any) {
+      Alert.alert('Erro', err.error || 'Erro na autenticação.');
     }
   };
 
@@ -49,24 +91,24 @@ const LoginScreen = () => {
         Aprimore a experiência de aprendizado dos seus alunos com nossas ferramentas de homeschooling e ensino híbrido.
       </Text>
 
-      <InputField   label="Endereço de e-mail"
-                    placeholder="exemplo@exemplo.edu.br"
-                    value={email}
-                    onChangeText={setEmail}
-                    autoCapitalize="none"
-                    keyboardType="email-address"/>
-      <InputField   label="Senha"
-                    placeholder="********"
-                    value={password}
-                    onChangeText={setPassword}
-                    secureTextEntry />
+      <InputField label="Endereço de e-mail"
+        placeholder="exemplo@exemplo.edu.br"
+        value={email}
+        onChangeText={setEmail}
+        autoCapitalize="none"
+        keyboardType="email-address" />
+      <InputField label="Senha"
+        placeholder="********"
+        value={password}
+        onChangeText={setPassword}
+        secureTextEntry />
 
       <TouchableOpacity style={styles.link}>
         <Text style={styles.linkText}>Esqueceu a senha?</Text>
       </TouchableOpacity>
 
       <TouchableOpacity style={[styles.button, !isFormValid && styles.disabledButton]} disabled={!isFormValid || isLoading} onPress={handleSubmit}>
-                {isLoading ? (
+        {isLoading ? (
           <ActivityIndicator color="#fff" />
         ) : (
           <Text style={styles.buttonText}>Continuar</Text>

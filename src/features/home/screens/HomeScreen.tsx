@@ -14,14 +14,22 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import axios from 'axios';
 import { environment } from '../../../config/environments';
+import * as Keychain from 'react-native-keychain';
 
 const HomeScreen = () => {
   const navigation = useNavigation();
   const [cursos, setCursos] = useState([]);
-  const token = ''
   useEffect(() => {
     const fetchCursos = async () => {
       try {
+        const credentials = await Keychain.getGenericPassword();
+        if (!credentials) {
+          navigation.navigate('Login');
+          return;
+        }
+
+        const token = credentials.password;
+
         const response = await axios.get(environment.api.curso, {
           headers: {
             Authorization: `Bearer ${token}`,
