@@ -68,11 +68,11 @@ Antes de começar, você vai precisar ter instalado/configurado as seguintes fer
       sudo apt install git
       ```  
     - Mac (Homebrew):  
-      ```bash
+      ```
       brew install git
       ```  
-  - Verifique a instalação:  
-  ```
+  - Verifique a instalação:
+```
     git --version
     ```
 
