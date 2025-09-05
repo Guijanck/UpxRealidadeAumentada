@@ -102,14 +102,13 @@ Ferramentas utilizadas e bibliotecas principais:
 -   **React Native** -- Interface mobile
 -   **Python** -- Suporte de backend e API
 -   **VS Code** -- IDE utilizada no desenvolvimento
--   **Trello** --Ferramenta de gestão de tarefas e organização do fluxo de trabalho em equipe
+-   **Trello** -- Ferramenta de gestão de tarefas e organização do fluxo de trabalho em equipe
 -   **AWS (Amazon Web Services)** --Serviços de backend, armazenamento e IA (ex.: AWS Lambda, S3, DynamoDB, Rekognition)
 -   **Figma** -- Plataforma para design de interfaces e prototipação do aplicativo.  
 
 ## 📌 Versão
 
--   **Versão 1.0** - Protótipo inicial com reconhecimento básico de
-    objetos recicláveis.
+-   **Versão 1.0** - Estrutura inicial do projeto
 
 ## ✒️ Autores
 
