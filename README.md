@@ -1,4 +1,4 @@
-# 📚 Projeto de Realidade Aumentada com OCR e IA
+# 📚 Genial
 
 Este projeto tem como objetivo desenvolver um recurso inovador na plataforma educacional existente que permita ao aluno apontar a câmera do celular para uma questão em lousa, livro ou papel, capturá-la via OCR e receber respostas automáticas geradas por IA, enriquecidas com elementos em Realidade Aumentada (RA).  
 O foco é **potencializar o aprendizado ativo**, tornando a compreensão dos conteúdos mais interativa, visual e acessível.  
@@ -59,6 +59,7 @@ Antes de começar, você vai precisar ter instalado/configurado as seguintes fer
     - No Unity Hub, instale a versão **2022 LTS** com os módulos: *Android Build Support*, *iOS Build Support* e *AR Foundation*.  
 ```
  **[Git](https://git-scm.com/)**  
+ 
  ```
   - Sistema de controle de versão para clonar, versionar e colaborar no código.  
   - Instalação:  
@@ -72,7 +73,7 @@ Antes de começar, você vai precisar ter instalado/configurado as seguintes fer
       brew install git
       ```  
   - Verifique a instalação:
-```
+ ```
     git --version
     ```
 
