@@ -116,5 +116,4 @@ Ferramentas utilizadas e bibliotecas principais:
 -   **Caique Mendes Pinto** - 223007
 -   **Guilherme Bordignon Janczak** - 222688
 -   **João Luiz Orlandini Ales** - 223497
--   **Gustavo Figueiredo Passos** - 222560
 -   **Lucas Laureano Jorge da Silva** - 222679
