@@ -1,4 +1,4 @@
-# 📚 GeniAL
+# 📚 Genial
 
 Este projeto tem como objetivo desenvolver um recurso inovador na plataforma educacional existente que permita ao aluno apontar a câmera do celular para uma questão em lousa, livro ou papel, capturá-la via OCR e receber respostas automáticas geradas por IA, enriquecidas com elementos em Realidade Aumentada (RA).  
 O foco é **potencializar o aprendizado ativo**, tornando a compreensão dos conteúdos mais interativa, visual e acessível.  
