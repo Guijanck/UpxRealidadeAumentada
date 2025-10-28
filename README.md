@@ -117,3 +117,4 @@ Ferramentas utilizadas e bibliotecas principais:
 -   **Guilherme Bordignon Janczak** - 222688
 -   **João Luiz Orlandini Ales** - 223497
 -   **Lucas Laureano Jorge da Silva** - 222679
+
