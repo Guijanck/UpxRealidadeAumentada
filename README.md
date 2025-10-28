@@ -1,97 +1,119 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# 📚 Genial
 
-# Getting Started
+Este projeto tem como objetivo desenvolver um recurso inovador na plataforma educacional existente que permita ao aluno apontar a câmera do celular para uma questão em lousa, livro ou papel, capturá-la via OCR e receber respostas automáticas geradas por IA, enriquecidas com elementos em Realidade Aumentada (RA).  
+O foco é **potencializar o aprendizado ativo**, tornando a compreensão dos conteúdos mais interativa, visual e acessível.  
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
 
-## Step 1: Start Metro
+## 🚀 Começando
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
+Desenvolver um sistema que utilize **OCR, Inteligência Artificial e Realidade Aumentada** para transformar questões físicas (em livros, folhas ou lousa) em experiências digitais interativas com explicações e objetos 3D educativos.
 
-To start the Metro dev server, run the following command from the root of your React Native project:
 
-```sh
-# Using npm
-npm start
+## 📋 Pré-requisitos
 
-# OR using Yarn
-yarn start
+Antes de começar, você vai precisar ter instalado/configurado as seguintes ferramentas no seu ambiente de desenvolvimento:  
+
+
+**[Python v3.11](https://www.python.org/downloads/)**  
+```
+  - Usado no backend e em rotinas de processamento de IA e OCR.  
+  - Instalação:  
+    - Windows: baixe o instalador no site oficial e marque a opção **Add to PATH**.  
+    - Linux/Mac: use o gerenciador de pacotes (`sudo apt install python3` ou `brew install python`).  
 ```
 
-## Step 2: Build and run your app
-
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
-
-### Android
-
-```sh
-# Using npm
-npm run android
-
-# OR using Yarn
-yarn android
+**[AWS CLI v2](https://docs.aws.amazon.com/cli/)**  
+```
+  - Usado para configurar e interagir com serviços AWS (Lambda, S3, DynamoDB, etc.).  
+  - Instalação:  
+    - Windows/Mac: baixe o instalador do site oficial.  
+    - Linux: `curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"`  
+      depois `unzip awscliv2.zip && sudo ./aws/install`.  
+  - Após instalar, configure com:  
+    aws configure
 ```
 
-### iOS
+**[Visual Studio Code (VS Code)](https://code.visualstudio.com/)**  
+```
+  - IDE utilizada para edição de código (React Native, Python, Unity scripts).  
+  - Instalação: baixe do site oficial e instale conforme seu sistema operacional.  
+  - Extensões recomendadas: *Python*, *React Native Tools*, *AWS Toolkit*, *C# (Unity)*.
+```  
 
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
+**[React Native v0.74](https://reactnative.dev/docs/environment-setup)**  
+```
+  - Framework usado para o desenvolvimento mobile multiplataforma (Android/iOS).  
+  - Instalação:  
+    npm install -g react-native-cli
 
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
-
-```sh
-bundle install
+  - Requisitos adicionais:  
+    - Node.js v20.x  
+    - Android Studio (para Android) ou Xcode (para iOS).  
 ```
 
-Then, and every time you update your native dependencies, run:
+ **[Unity 2022 LTS](https://unity.com/releases/editor/whats-new/2022-lts)** com **AR Foundation**  
+ ```
+  - Utilizado para criar experiências de Realidade Aumentada (RA).  
+  - Instalação:  
+    - Baixe e instale o **Unity Hub**.  
+    - No Unity Hub, instale a versão **2022 LTS** com os módulos: *Android Build Support*, *iOS Build Support* e *AR Foundation*.  
+```
+ **[Git](https://git-scm.com/)**  
+ 
+ ```
+  - Sistema de controle de versão para clonar, versionar e colaborar no código.  
+  - Instalação:  
+    - Windows: baixe e instale o **Git for Windows**.  
+    - Linux (Debian/Ubuntu):  
+      ```
+      sudo apt install git
+      ```  
+    - Mac (Homebrew):  
+      ```
+      brew install git
+      ```  
+  - Verifique a instalação:
+ ```
+    git --version
+    ```
 
-```sh
-bundle exec pod install
+
+## 🔧 Instalação
+
+Clone o repositório e instale as dependências necessárias:
+
+```
+git clone https://github.com/seu-usuario/trashhunt.git
+cd trashhunt
+npm install
 ```
 
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
+Para rodar o aplicativo em modo desenvolvimento:
 
-```sh
-# Using npm
-npm run ios
-
-# OR using Yarn
-yarn ios
+```
+npm run start
 ```
 
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
 
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
+## 🛠️ Construído com
 
-## Step 3: Modify your app
+Ferramentas utilizadas e bibliotecas principais:
 
-Now that you have successfully run the app, let's make changes!
+-   **Unity 3D + AR Foundation** -- motor para Realidade Aumentada
+-   **React Native** -- Interface mobile
+-   **Python** -- Suporte de backend e API
+-   **VS Code** -- IDE utilizada no desenvolvimento
+-   **Trello** -- Ferramenta de gestão de tarefas e organização do fluxo de trabalho em equipe
+-   **AWS (Amazon Web Services)** --Serviços de backend, armazenamento e IA (ex.: AWS Lambda, S3, DynamoDB, Rekognition)
+-   **Figma** -- Plataforma para design de interfaces e prototipação do aplicativo.  
 
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
+## 📌 Versão
 
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
+-   **Versão 1.0** - Estrutura inicial do projeto
 
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
+## ✒️ Autores
 
-## Congratulations! :tada:
-
-You've successfully run and modified your React Native App. :partying_face:
-
-### Now what?
-
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
-
-# Troubleshooting
-
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+-   **Caique Mendes Pinto** - 223007
+-   **Guilherme Bordignon Janczak** - 222688
+-   **João Luiz Orlandini Ales** - 223497
+-   **Lucas Laureano Jorge da Silva** - 222679
