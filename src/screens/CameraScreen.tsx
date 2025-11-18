@@ -9,6 +9,7 @@ import {
   Button,
   Modal,
   ScrollView,
+  Linking,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { launchCamera, CameraOptions } from 'react-native-image-picker';
@@ -17,14 +18,51 @@ import RNFS from 'react-native-fs';
 import { Buffer } from 'buffer';
 import { BlurView } from '@react-native-community/blur';
 
+
 const generateUserId = () =>
   'session-' + Math.random().toString(36).substring(2, 15);
 let currentUserId = generateUserId();
 
-const AUTH_TOKEN = 'eyJraWQiOiJXa2hkRmFkZlEyNzJydDd4Q0V6SUh2M0FkYjVMb3IzakJVQjM4clwvTHBiYz0iLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiIzNGU4MjRiOC01MDMxLTcwMWItNmQ5OC1lMjJhYjMzOWY5N2MiLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiaXNzIjoiaHR0cHM6XC9cL2NvZ25pdG8taWRwLnVzLWVhc3QtMS5hbWF6b25hd3MuY29tXC91cy1lYXN0LTFfMFRRUE9uUEVqIiwiY3VzdG9tOnR1cm1hIjoiNCIsImNvZ25pdG86dXNlcm5hbWUiOiIzNGU4MjRiOC01MDMxLTcwMWItNmQ5OC1lMjJhYjMzOWY5N2MiLCJwaWN0dXJlIjoiaHR0cHM6XC9cL2dlbmlxLW12cC5zMy51cy1lYXN0LTEuYW1hem9uYXdzLmNvbVwvSW1hZ2VtK2RvK1doYXRzQXBwK2RlKzIwMjUtMDUtMTIrJUMzJUEwKHMpKzIwLjA1LjM2X2FlMThkMjU3LmpwZyIsIm9yaWdpbl9qdGkiOiI3OGEzNTVlYS0xMTEyLTRmYWEtODAwYS05NWQ5NzgyMDU0ZGEiLCJhdWQiOiIybDhjamM4ZzkxOHFrYXBnNWdkcTJjYnJpdCIsImV2ZW50X2lkIjoiNjBjNGY2YjUtODhjMC00MmRmLTk1NzEtYjEwM2I0OTg1YjI0IiwidG9rZW5fdXNlIjoiaWQiLCJhdXRoX3RpbWUiOjE3NjI5OTE1ODYsIm5hbWUiOiJMdWNhcyBMYXVyZWFubyIsImV4cCI6MTc2Mjk5NTE4NiwiY3VzdG9tOnJvbGUiOiJhbHVubyIsImlhdCI6MTc2Mjk5MTU4NywianRpIjoiODU3YTFjOWMtNmFjMC00M2MzLThkMmMtNzAxYzI4ZjNlZTc2IiwiZW1haWwiOiJsdWNhc2xhdXJlYW5vc2lsdmFqb3JnZUBnbWFpbC5jb20ifQ.M6CJLtavKig50s6qiNYdV6hkkscQA1yQJULM5UgnOskgUXykHOwDPd1XMHUL0co1SktKmABSA39QwGLjpeUy10XORYMbqBFFQXSH2fTB1g77xtpGS3uWf2D47YZ9yFqWrKXt5veGB3jJ3tPTtlH21kr5RSG7u1XSyNIziRT-NMVZdxlm0fOAbVolxs7NitOaM--4jphrBVUiXouqS_UoZvZMXFGWvqjojPTlQ--5SGkForsd-e7srFYfcbjngLYmhGETvnPfNziHz2Oqz8YagYZ8MCBlwG7p3Q6wxOvgwuF-IvI8to67iUnJ1NFnB43Wj7f9CCQjz3oAcD9FW10xVQ';
+const AUTH_TOKEN = 'eyJraWQiOiJXa2hkRmFkZlEyNzJydDd4Q0V6SUh2M0FkYjVMb3IzakJVQjM4clwvTHBiYz0iLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiIzNGU4MjRiOC01MDMxLTcwMWItNmQ5OC1lMjJhYjMzOWY5N2MiLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiaXNzIjoiaHR0cHM6XC9cL2NvZ25pdG8taWRwLnVzLWVhc3QtMS5hbWF6b25hd3MuY29tXC91cy1lYXN0LTFfMFRRUE9uUEVqIiwiY3VzdG9tOnR1cm1hIjoiNCIsImNvZ25pdG86dXNlcm5hbWUiOiIzNGU4MjRiOC01MDMxLTcwMWItNmQ5OC1lMjJhYjMzOWY5N2MiLCJwaWN0dXJlIjoiaHR0cHM6XC9cL2dlbmlxLW12cC5zMy51cy1lYXN0LTEuYW1hem9uYXdzLmNvbVwvSW1hZ2VtK2RvK1doYXRzQXBwK2RlKzIwMjUtMDUtMTIrJUMzJUEwKHMpKzIwLjA1LjM2X2FlMThkMjU3LmpwZyIsIm9yaWdpbl9qdGkiOiI2NWRhYmZlNy0yYWM2LTQxMTQtYWJlYS0zZGUxYzYyZjQ5MjAiLCJhdWQiOiIybDhjamM4ZzkxOHFrYXBnNWdkcTJjYnJpdCIsImV2ZW50X2lkIjoiODQ5NWQ4ZTMtOTM0NS00NTI2LTg0NDctYWQ2MWI4YTU4NTQ2IiwidG9rZW5fdXNlIjoiaWQiLCJhdXRoX3RpbWUiOjE3NjM0ODIwOTUsIm5hbWUiOiJMdWNhcyBMYXVyZWFubyIsImV4cCI6MTc2MzQ4NTY5NSwiY3VzdG9tOnJvbGUiOiJhbHVubyIsImlhdCI6MTc2MzQ4MjA5NSwianRpIjoiNDdjNzM4ZTktMDI5MS00OTM4LTk5MzUtNTkyZWMxNTZjOTBiIiwiZW1haWwiOiJsdWNhc2xhdXJlYW5vc2lsdmFqb3JnZUBnbWFpbC5jb20ifQ.skjiZXFWVrN3qfzSq26w5ku-Hw5LuK5cme3MwSZCm6ADNtDLT6NVEg-HuAsK_eAY0fw6oIqGrU8pS_7Mw7Vk-xJkgAmrbRtDGgVkzcyRCxAaeCsDjLazszRUUBi6NmBHIwhtN-FU8kDFVWPrXVMOR_McnWkKJo9I6v2i4MgfXytulC5bXPnD4_k1nSplUPt-edplI4-IyzdzIEEbFprfKyRxfvHvQsaPHHSe2S-LgVTvtPD60ica-vl5g2PA_apPQCqopnJeqVUwUB99CT8VOvXGINL_1GiydLCupr1Z8M3vIS4T7Cc-eCWBIf_hwOr2EIP8z15ykP_Yofil4951YQ';
+
+const BASE_URL = 'https://rioovieo9h.execute-api.us-east-1.amazonaws.com/v0';
 
 type NavigationProps = {
   goBack: () => void;
+};
+
+let Viro: any = null;
+try {
+  Viro = require('@viro-community/react-viro');
+} catch (e) {
+  Viro = null;
+}
+
+let WebView: any = null;
+try {
+  // se não tiver react-native-webview instalado, cai no catch e WebView fica null
+  WebView = require('react-native-webview').WebView;
+} catch (e) {
+  WebView = null;
+}
+
+
+const ARScene = (props?: any) => {
+  const modelUrl = props?.sceneNavigator?.viroAppProps?.modelUrl;
+  if (!Viro || !Viro.ViroARScene) return null;
+  return (
+    <Viro.ViroARScene>
+      {modelUrl && (
+        <Viro.Viro3DObject
+          source={{ uri: modelUrl }}
+          type="GLB"
+          position={[0, -1, -2]}
+          scale={[1, 1, 1]}
+          rotation={[0, 0, 0]}
+        />
+      )}
+    </Viro.ViroARScene>
+  );
 };
 
 const CameraScreen = () => {
@@ -34,15 +72,62 @@ const CameraScreen = () => {
   const [resultModalVisible, setResultModalVisible] = useState(false);
   const [resultAnswer, setResultAnswer] = useState<string | null>(null);
   const [answerJustification, setAnswerJustification] = useState<string | null>(null);
+  const [model3dUrl, setModel3dUrl] = useState<string | null>(null);
+  const [concept, setConcept] = useState<string | null>(null);
+
+  // =========================================================================
+  // NOVA FUNÇÃO: Chama a API GET /assets para obter a URL pré-assinada do 3D
+  // =========================================================================
+  const fetch3dModel = async (assetConcept: string) => {
+    if (!assetConcept) return;
+
+    // TODO: Determine a plataforma de forma dinâmica se necessário (ex: Platform.OS)
+    const platform = 'android';
+
+    try {
+      const assetResponse = await fetch(
+        `${BASE_URL}/assets?concept=${encodeURIComponent(assetConcept)}&platform=${platform}`,
+        {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${AUTH_TOKEN}`,
+          },
+        }
+      );
+
+      if (!assetResponse.ok) {
+        console.error('Erro ao buscar modelo 3D:', assetResponse.status, await assetResponse.text());
+        setModel3dUrl(null); // Garante que o botão não aparece
+        return;
+      }
+
+      const assetResult = await assetResponse.json();
+
+      if (assetResult.url) {
+        setModel3dUrl(assetResult.url);
+        // O campo 'title' também pode ser útil para o usuário
+        console.log(`URL 3D para "${assetResult.url}" gerada.`);
+      }
+
+    } catch (error) {
+      console.error('Erro de rede ao buscar 3D:', error);
+      setModel3dUrl(null);
+    }
+  };
 
   const sendImageToAI = async (uri: string) => {
     setIsCapturing(true);
+
+    // Limpa o estado 3D anterior
+    setModel3dUrl(null);
+    setConcept(null);
+
     try {
       const base64Data = await RNFS.readFile(uri, 'base64');
       const contentType = 'image/png';
 
       const uploadUrlResponse = await fetch(
-        'https://rioovieo9h.execute-api.us-east-1.amazonaws.com/v0/uploads',
+        `${BASE_URL}/uploads`,
         {
           method: 'POST',
           headers: {
@@ -67,7 +152,7 @@ const CameraScreen = () => {
       });
 
       const finalAnswerResponse = await fetch(
-        'https://rioovieo9h.execute-api.us-east-1.amazonaws.com/v0/answers',
+        `${BASE_URL}/answers`,
         {
           method: 'POST',
           headers: {
@@ -79,6 +164,18 @@ const CameraScreen = () => {
       );
 
       const result = await finalAnswerResponse.json();
+
+      // console.error('Resposta completa da API /answers:', JSON.stringify(result, null, 2));
+
+      // Extrai o conceito do JSON
+      // const assetConcept = result.structured?.concept || null; 
+      const assetConcept = result.assets?.[0]?.concept || null;
+
+      if (assetConcept) {
+        setConcept(assetConcept);
+        // Chama a API de 3D de forma assíncrona
+        await fetch3dModel(assetConcept);
+      }
 
       const justification =
         result.markdown ||
@@ -93,7 +190,6 @@ const CameraScreen = () => {
         'Não foi possível interpretar a resposta.';
 
       setResultAnswer(fullAnswer);
-      // setResultAnswer(result.answer ?? 'Não foi possível interpretar a resposta.');
       setResultModalVisible(true);
     } catch (error) {
       console.error('Erro no fluxo:', error);
@@ -183,8 +279,73 @@ const CameraScreen = () => {
                 style={styles.modalScrollArea} // Estilo para a área de scroll
                 contentContainerStyle={styles.modalScrollContent}>
                 <Text style={styles.modalAnswer}><Text style={{ fontWeight: 'bold' }}>Resposta:</Text> {resultAnswer}</Text>
-                <Text style={styles.modalAnswer}><Text style={{ fontWeight: 'bold' }}>justificativa:</Text> {answerJustification}</Text>
+                <Text style={styles.modalAnswer}><Text style={{ fontWeight: 'bold' }}>justificativa:</Text> {answerJustification}
+                </Text>
+
+                {/* NOVO: Botão para o Modelo 3D
+                {model3dUrl && (
+                  <TouchableOpacity
+                    style={styles.model3dButton}
+                    onPress={() => Linking.openURL(model3dUrl)}>
+                    <Icon name="cube-outline" size={20} color="#FFF" />
+                    <Text style={styles.model3dButtonText}>Ver em 3D</Text>
+                  </TouchableOpacity>
+                )} */}
               </ScrollView>
+
+              {/* Visualizador AR fora da modal — aparece abaixo da imagem principal */}
+              {/* Modal do resultado */}
+              <Modal
+                visible={resultModalVisible}
+                transparent
+                animationType="fade"
+                onRequestClose={() => setResultModalVisible(false)}>
+                <View style={styles.modalContainer}>
+                  <Image source={{ uri: photoUri }} style={styles.modalBackground} blurRadius={10} />
+                  <BlurView
+                    style={StyleSheet.absoluteFill}
+                    blurType="light"
+                    blurAmount={15}
+                  />
+                  <View style={styles.modalContent}>
+                    <TouchableOpacity
+                      style={styles.modalCloseButton}
+                      onPress={() => setResultModalVisible(false)}>
+                      <Icon name="close" size={22} color="#000" />
+                    </TouchableOpacity>
+
+                    <ScrollView
+                      style={styles.modalScrollArea}
+                      contentContainerStyle={styles.modalScrollContent}>
+                      <Text style={styles.modalAnswer}><Text style={{ fontWeight: 'bold' }}>Resposta:</Text> {resultAnswer}</Text>
+                      <Text style={styles.modalAnswer}><Text style={{ fontWeight: 'bold' }}>justificativa:</Text> {answerJustification}</Text>
+                    </ScrollView>
+
+                    {/* Removido botão de download; AR será mostrado fora da modal automaticamente */}
+                  </View>
+                </View>
+              </Modal>
+
+              {/* Visualizador AR fora da modal — renderiza automaticamente quando a resposta carregar */}
+              {resultModalVisible && model3dUrl && (
+                Viro && Viro.ViroARSceneNavigator ? (
+                  <View style={styles.arContainer}>
+                    <Viro.ViroARSceneNavigator
+                      initialScene={{ scene: ARScene as unknown as () => React.ReactElement }}
+                      viroAppProps={{ modelUrl: model3dUrl }}
+                      style={styles.arNavigator}
+                    />
+                  </View>
+                ) : (
+                  // fallback: mostra botão para baixar/abrir o GLB quando Viro (nativo) não estiver disponível
+                  <TouchableOpacity
+                    style={styles.model3dButton}
+                    onPress={() => Linking.openURL(model3dUrl)}>
+                    <Icon name="cube-outline" size={20} color="#FFF" />
+                    <Text style={styles.model3dButtonText}>Baixar modelo 3D</Text>
+                  </TouchableOpacity>
+                )
+              )}
             </View>
           </View>
         </Modal>
@@ -263,6 +424,35 @@ const styles = StyleSheet.create({
     paddingVertical: 4,
     marginBottom: 8,
     fontWeight: '600',
+  },
+
+  model3dButton: {
+    flexDirection: 'row',
+    backgroundColor: '#3A4BFF',
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 10,
+    marginTop: 20, // Adiciona margem superior
+    alignSelf: 'center',
+    alignItems: 'center',
+  },
+  model3dButtonText: {
+    color: '#FFF',
+    fontWeight: 'bold',
+    marginLeft: 10,
+  },
+
+  arContainer: {
+    width: '100%',
+    height: 300, // ajuste conforme desejar
+    marginTop: 16,
+    borderRadius: 12,
+    overflow: 'hidden',
+    alignSelf: 'center',
+  },
+  arNavigator: {
+    flex: 1,
+    backgroundColor: '#000',
   },
 });
 
